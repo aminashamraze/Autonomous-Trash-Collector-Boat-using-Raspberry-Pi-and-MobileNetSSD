@@ -1,0 +1,86 @@
+// ESP32 receives commands from Raspberry Pi over USB Serial
+// and outputs PWM on two pins.
+
+const int LEFT_PWM_PIN  = 25;
+const int RIGHT_PWM_PIN = 26;
+
+const int PWM_FREQ = 1000;      // 1 kHz for motor driver PWM
+const int PWM_RES  = 8;         // 8-bit: duty 0-255
+
+int speedNormal = 160;
+int speedSlow   = 100;
+int speedTurn   = 140;
+
+String command = "";
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000);
+
+  // Arduino-ESP32 core 3.x style
+  ledcAttach(LEFT_PWM_PIN, PWM_FREQ, PWM_RES);
+  ledcAttach(RIGHT_PWM_PIN, PWM_FREQ, PWM_RES);
+
+  stopMotors();
+
+  Serial.println("ESP32 READY");
+}
+
+void loop() {
+  if (Serial.available()) {
+    command = Serial.readStringUntil('\n');
+    command.trim();
+
+    Serial.print("Received: ");
+    Serial.println(command);
+
+    if (command == "MOVE_FORWARD") {
+      moveForward();
+    }
+    else if (command == "MOVE_FORWARD_SLOW") {
+      moveForwardSlow();
+    }
+    else if (command == "TURN_LEFT") {
+      turnLeft();
+    }
+    else if (command == "TURN_RIGHT") {
+      turnRight();
+    }
+    else if (command == "SEARCH") {
+      searchMode();
+    }
+    else if (command == "STOP") {
+      stopMotors();
+    }
+  }
+}
+
+void moveForward() {
+  ledcWrite(LEFT_PWM_PIN, speedNormal);
+  ledcWrite(RIGHT_PWM_PIN, speedNormal);
+}
+
+void moveForwardSlow() {
+  ledcWrite(LEFT_PWM_PIN, speedSlow);
+  ledcWrite(RIGHT_PWM_PIN, speedSlow);
+}
+
+void turnLeft() {
+  ledcWrite(LEFT_PWM_PIN, speedSlow);
+  ledcWrite(RIGHT_PWM_PIN, speedTurn);
+}
+
+void turnRight() {
+  ledcWrite(LEFT_PWM_PIN, speedTurn);
+  ledcWrite(RIGHT_PWM_PIN, speedSlow);
+}
+
+void searchMode() {
+  ledcWrite(LEFT_PWM_PIN, speedSlow);
+  ledcWrite(RIGHT_PWM_PIN, 0);
+}
+
+void stopMotors() {
+  ledcWrite(LEFT_PWM_PIN, 0);
+  ledcWrite(RIGHT_PWM_PIN, 0);
+}

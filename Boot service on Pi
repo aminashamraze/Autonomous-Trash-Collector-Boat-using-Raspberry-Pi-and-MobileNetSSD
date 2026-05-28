@@ -1,0 +1,14 @@
+[Unit]
+Description=Boat Vision + Control Script
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/asterieximpact/coco_folder/object_ident_01_pipeline.py
+WorkingDirectory=/home/asterieximpact/coco_folder/object_ident_01_pipeline.py
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target

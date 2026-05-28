@@ -342,6 +342,20 @@ python3 "object_ident_updated (2).py"
 
 If your filename is changed later, run the updated Python file instead.
 
+Later connect the pi with esp32 using usb port.
+Esp32 must be flashed with ESP32_code_for commands, so it can accept commands from Raspberry Pi. Make boot service on Pi. (Assumption here is that, Esp32 is connected with electrical circuitry of motors.)
+sudo nano /etc/systemd/system/boat.service
+Paste the code from Boot service on Pi. Enable it using these commands:
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl enable boat.service
+
+to check status use,
+sudo systemctl status boat.service
+
+to check logs;
+journalctl -u boat.service -f
+
 ---
 
 ## Selecting Which Objects to Detect

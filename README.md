@@ -461,12 +461,6 @@ The bounding box area changed too much because of object angle, partial detectio
 
 Instead of forcing unreliable area-based distance logic, the project used a simpler and more dependable approach:
 
-```text
-Use object position to decide steering direction.
-```
-
-That is a stronger design choice for this stage of the project.
-
 ---
 
 ## Credits
@@ -487,8 +481,6 @@ This project is licensed under the MIT License.
 
 ```
 
-One thing I’d tighten in the repo too: rename `object_ident_updated (2).py` to something cleaner like `trash_detection.py`. Filenames with spaces and parentheses work, but they look messy on GitHub and are annoying to run from terminal.
-::contentReference[oaicite:1]{index=1}
 ```
 
 [1]: https://github.com/aminashamraze/Autonomous-Trash-Collector-Boat-using-Raspberry-Pi-and-MobileNetSSD "GitHub - aminashamraze/Autonomous-Trash-Collector-Boat-using-Raspberry-Pi-and-MobileNetSSD: A Raspberry-Pi based autonomous trash collector robot that laverages the use of MobileNetSSD for detection of trash and collects them, useful for small ponds and still waters. · GitHub"
